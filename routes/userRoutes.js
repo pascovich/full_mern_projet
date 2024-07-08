@@ -13,7 +13,7 @@ router.get("/users", getUsers);
 router.get("/users/:id", userInfo);
 router.post("/users", signup);
 router.patch("/follow/:id", follow);
-router.patch("/unfollow/:id", unfollow);
+router.patch("/unFollow/:id", unfollow);
 
 // export router
 export default router;
