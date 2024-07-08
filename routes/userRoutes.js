@@ -5,9 +5,14 @@ import {
   userInfo,
   follow,
   unfollow,
+  signIn,
+  logout,
 } from "../controllers/authController.js";
 
 const router = express.Router();
+
+router.post("/signIn", signIn);
+router.get("/logout", logout);
 
 router.get("/users", getUsers);
 router.get("/users/:id", userInfo);

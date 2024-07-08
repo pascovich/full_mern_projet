@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import userModel from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 
 const ObjectID = mongoose.Types.ObjectId;
+const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 export const signup = async (req, res) => {
   const { pseudo, email, password } = req.body;
@@ -31,13 +33,7 @@ export const userInfo = async (req, res) => {
     if (!ObjectID.isValid(req.params.id))
       return res.status(404).send({ message: "Unknown id" });
 
-    const user = await userModel
-      .findById(req.params.id)
-      // .findById(req.params.id, (err, docs) => {
-      //   if (!err) res.send({ message: "user infos", docs });
-      //   else res.send({ message: err });
-      // })
-      .select("-password");
+    const user = await userModel.findById(req.params.id).select("-password");
     res.send({ message: "user infos", user });
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -120,4 +116,27 @@ export const unfollow = async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
+};
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.TOKEN_SECRET, {
+    expiresIn: maxAge,
+  });
+};
+
+export const signIn = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await userModel.login(email, password);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
+    res.status(200).send({ user });
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+};
+
+export const logout = async (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/");
 };
