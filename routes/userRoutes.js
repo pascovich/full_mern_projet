@@ -7,7 +7,11 @@ import {
   unfollow,
   signIn,
   logout,
+  uploadProfil,
 } from "../controllers/authController.js";
+import multer from "multer";
+
+const upload = multer();
 
 const router = express.Router();
 
@@ -19,6 +23,8 @@ router.get("/users/:id", userInfo);
 router.post("/users", signup);
 router.patch("/follow/:id", follow);
 router.patch("/unFollow/:id", unfollow);
+
+router.post("/upload/", upload.single("file"), uploadProfil);
 
 // export router
 export default router;

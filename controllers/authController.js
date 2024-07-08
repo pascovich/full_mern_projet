@@ -143,3 +143,5 @@ export const logout = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.redirect("/");
 };
+
+export const uploadProfil = async (req, res) => {};

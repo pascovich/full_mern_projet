@@ -23,7 +23,10 @@ export const createPost = async (req, res) => {
 export const readPost = async (req, res) => {
   try {
     const post = await postModel.find();
-    res.status(200).send({ message: "user infos fetch", post });
+    res
+      .status(200)
+      .send({ message: "user infos fetch", post })
+      .sort({ createdAt: -1 });
   } catch (err) {
     res.status(500).send({ message: err });
   }
@@ -132,6 +135,92 @@ export const unlikePost = async (req, res) => {
       })
       .catch((err) => {
         return res.status(500).send({ message: err });
+      });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+export const commentPost = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(404).send({ message: "Unknown id" });
+  try {
+    postModel
+      .findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: {
+            comments: {
+              commenterId: req.body.commenterId,
+              commenterPseudo: req.body.commenterPseudo,
+              text: req.body.text,
+              timestamp: new Date().getTime(),
+            },
+          },
+        },
+        { new: true }
+      )
+      .then((docs) => {
+        res.send({ message: "post commented successfully", docs });
+      })
+      .catch((err) => {
+        res.send({ message: err });
+      });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+export const editCommentPost = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(404).send({ message: "Unknown id" });
+  try {
+    const com = null;
+    return postModel
+      .findById(req.params.id)
+      .then((docs) => {
+        const thecomment = docs.comments.find((comment) => {
+          //   comment._id.equals(req.body.commentId);
+          com = comment._id;
+        });
+        return res.send(com);
+        // if (!thecomment) return res.status(404).send("comment not found");
+        // thecomment.text = req.body.text;
+        // return docs.save((err) => {
+        //   if (!err)
+        //     return res
+        //       .status(200)
+        //       .send({ message: "post commented updated", docs });
+        //   return res.status(500).send(err);
+        // });
+      })
+      .catch((err) => {
+        res.send({ message: err });
+      });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+export const deleteCommentPost = async (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(404).send({ message: "Unknown id" });
+  try {
+    postModel
+      .findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: {
+            _id: req.body.commenterId,
+          },
+        },
+        { new: true }
+      )
+      .then((docs) => {
+        res.send({ message: "comment deleted successfully", docs });
+      })
+      .catch((err) => {
+        res.send({ message: err });
       });
   } catch (err) {
     res.status(500).send({ message: err.message });

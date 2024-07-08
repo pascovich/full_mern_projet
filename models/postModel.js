@@ -32,7 +32,7 @@ const postSchema = mongoose.Schema(
           timestamps: Number,
         },
       ],
-      require: true,
+      required: true,
     },
   },
   {
