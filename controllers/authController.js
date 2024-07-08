@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import { signUpErrors } from "../utils/errorsUtils.js";
+import { signUpErrors, signInErrors } from "../utils/errorsUtils.js";
 
 const ObjectID = mongoose.Types.ObjectId;
 const maxAge = 3 * 24 * 60 * 60 * 1000;
@@ -133,8 +133,9 @@ export const signIn = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
     res.status(200).send({ user });
-  } catch (error) {
-    res.status(500).send({ message: error });
+  } catch (err) {
+    const errors = signInErrors(err);
+    res.status(500).send({ errors });
   }
 };
 

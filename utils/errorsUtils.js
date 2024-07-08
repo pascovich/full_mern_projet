@@ -19,3 +19,15 @@ export const signUpErrors = (err) => {
 
   return errors;
 };
+
+export const signInErrors = (err) => {
+  let errors = { email: "", password: "" };
+
+  if (err.message.includes("email")) {
+    errors.email = "email incorrect";
+  }
+  if (err.message.includes("password")) {
+    errors.password = "password incorect ";
+  }
+  return errors;
+};
