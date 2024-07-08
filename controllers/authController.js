@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import { signUpErrors } from "../utils/errorsUtils.js";
 
 const ObjectID = mongoose.Types.ObjectId;
 const maxAge = 3 * 24 * 60 * 60 * 1000;
@@ -16,7 +17,8 @@ export const signup = async (req, res) => {
     });
     res.status(200).send({ message: "User created successfully", user });
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    const errors = signUpErrors(err);
+    res.status(500).send({ errors });
   }
 };
 export const getUsers = async (req, res) => {
