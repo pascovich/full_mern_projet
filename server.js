@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 import cookieParser from "cookie-parser";
 import { checkUser, requireAuth } from "./middleware/authMiddleware.js";
 // require("dotenv").config({ path: "./config/.env" });
@@ -25,6 +26,7 @@ app.get("/jwtId", requireAuth, (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 
 app.listen(port, () => {
   console.log(`listening to port ${port}`);
