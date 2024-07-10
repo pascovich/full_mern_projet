@@ -5,12 +5,24 @@ import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import cookieParser from "cookie-parser";
 import { checkUser, requireAuth } from "./middleware/authMiddleware.js";
+import cors from "cors";
 // require("dotenv").config({ path: "./config/.env" });
 
 // read environment
 dotenv.config({ path: "./config/.env" });
 
 const app = express();
+
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  allowedHeaders: ["sesionId", "Content-Type"],
+  exposedHeaders: ["sessionId"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+};
+
+app.use(cors(corsOptions));
 
 // Middleware to  parse JSON request bodies
 

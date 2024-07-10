@@ -175,15 +175,16 @@ export const editCommentPost = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(404).send({ message: "Unknown id" });
   try {
-    const com = null;
-    return postModel
+    postModel
       .findById(req.params.id)
       .then((docs) => {
-        const thecomment = docs.comments.find((comment) => {
-          //   comment._id.equals(req.body.commentId);
-          com = comment._id;
-        });
-        return res.send(com);
+        const thecomment = docs.comments.find();
+        // const thecomment = docs.comments.find((comment) => {
+        //   comment._id.equals(req.body.commentId);
+        return res.send(thecomment);
+        //   return res.send(comment._id + " " + req.body.commentId);
+        // });
+
         // if (!thecomment) return res.status(404).send("comment not found");
         // thecomment.text = req.body.text;
         // return docs.save((err) => {

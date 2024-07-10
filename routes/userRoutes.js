@@ -24,7 +24,7 @@ router.post("/users", signup);
 router.patch("/follow/:id", follow);
 router.patch("/unFollow/:id", unfollow);
 
-router.post("/upload/", upload.single("file"), uploadProfil);
+router.post("/upload", upload.single("file"), uploadProfil);
 
 // export router
 export default router;

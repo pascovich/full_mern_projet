@@ -31,3 +31,13 @@ export const signInErrors = (err) => {
   }
   return errors;
 };
+
+export const uploadFileError = (err) => {
+  let errors = { format: "", size: "" };
+  if (err.message.includes("invalide format")) {
+    errors.format = "format de image est invalide";
+  }
+  if (err.message.includes("max size")) {
+    errors.format = "la taille de l'image doit pas depasser le 500ko";
+  }
+};
