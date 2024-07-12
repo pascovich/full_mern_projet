@@ -39,7 +39,7 @@ export const signup = async (req, res) => {
     res.status(200).send({ message: "User created successfully", user });
   } catch (err) {
     const errors = signUpErrors(err);
-    res.status(500).send({ errors });
+    res.status(200).send({ errors });
   }
 };
 export const getUsers = async (req, res) => {
