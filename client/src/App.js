@@ -4,9 +4,13 @@ import Routes from "./components/routes";
 import { UidContext } from "./components/AppContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getUser } from "./actions/userActions";
 
 function App() {
   const [Uid, setUid] = useState(null);
+  // redux store
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchToken() {
@@ -24,6 +28,8 @@ function App() {
         });
     }
     fetchToken();
+
+    if (Uid) dispatch(getUser(Uid));
   }, [Uid]);
 
   return (
