@@ -21,7 +21,8 @@ const NavBar = () => {
           <li></li>
           <li className="welcome">
             <NavLink to="/profil">
-              <h5>Bienvenu {userData.user.pseudo}</h5>
+              <h5>Bienvenu userData.user.pseudo</h5>
+              {/* <h5>Bienvenu {userData.user.pseudo}</h5> */}
             </NavLink>
           </li>
           <Logout />
