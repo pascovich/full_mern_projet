@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from '../../Utils';
+import { followUser } from '../../actions/userActions';
 
 const FollowHandler = ({idToFollow}) => {
     const userData = useSelector((state)=>state.userReducer);
     const [isFollowed,setIsFollowed] = useState(false)
 
+     // redux store
+  const dispatch = useDispatch();
 
 
     const handlerFollow = () =>{
-
+        dispatch(followUser(userData._id,idToFollow))
+        setIsFollowed(true)
     }
-    const UnhandlerFollow = () =>{
+    const handlerUnFollow = () =>{
         
     }
 
@@ -25,14 +29,14 @@ const FollowHandler = ({idToFollow}) => {
 
     return (
         <>
-        {isFollowed && (
+        {isFollowed &&  !isEmpty(userData) && (
             <span>
-                <button>Abonné</button>
+                <button onClick={handlerUnFollow}>Abonné</button>
             </span>
         )}
-        {isFollowed === false && (
+        {isFollowed === false && !isEmpty(userData) &&(
             <span>
-                <button>Suivre</button>
+                <button onClick={handlerFollow}>Suivre</button>
             </span>
         )}
         </>
