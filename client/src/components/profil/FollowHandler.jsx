@@ -9,6 +9,7 @@ const FollowHandler = ({idToFollow}) => {
 
      // redux store
   const dispatch = useDispatch();
+  
 
 
     const handlerFollow = () =>{
