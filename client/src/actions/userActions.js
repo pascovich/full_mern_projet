@@ -56,3 +56,17 @@ export const followUser = (followUserId, idToFollow) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const unFollowUser = (followUserId, idToUnFollow) => {
+  return (dispatch) => {
+    return axios({
+      method: "patch",
+      url: `${process.env.REACT_APP_API_URL}api/user/unFollow/${followUserId}`,
+      data: { idToUnFollow },
+    })
+      .then((res) => {
+        dispatch({ type: UNFOLLOW_USER, payload: { idToUnFollow } });
+      })
+      .catch((err) => console.log(err));
+  };
+};

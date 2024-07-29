@@ -16,7 +16,7 @@ const UpdateProfil = () => {
     const [followersPopup,setFollowersPopup] = useState(false)
 
     const updateBio = () => {
-        dispatch(updateBio(userData.__id,bio))
+        dispatch(updateBio(userData._id,bio))
         setUpdateForm(false)
     }
 
@@ -58,11 +58,14 @@ const UpdateProfil = () => {
                 followingPopup &&  <div>
                     <div className='modal'>
                     <h4>Abonnements</h4>
-                    {/* {userData.user.following && userData.user.following.map((follower)=>(
-                        <p key={follower}>{follower}</p>
-                    ))} */}
-                    <span className='cross' onClick={()=>setFollowingPopup(false)}>&#10005;</span>
                     <ul>
+                    {userData.user.following && userData.user.following.map((follower)=>(
+                        <li key={follower}>{follower} <FollowHandler idToFollow={follower}/></li>
+                    ))}
+                    </ul>
+                    
+                    <span className='cross' onClick={()=>setFollowingPopup(false)}>&#10005;</span>
+                    {/* <ul>
                         {
                             usersData.user.map((user) => {
                                 for(let i = 0; i < userData.user.following.length; i++) {
@@ -77,7 +80,7 @@ const UpdateProfil = () => {
                                 }
                             })
                         }
-                    </ul>
+                    </ul> */}
                     </div>
                     
                 </div>
@@ -88,43 +91,19 @@ const UpdateProfil = () => {
                  followersPopup &&  <div>
                  <div className='modal'>
                  <h4>Abonnes</h4>
-                 {userData.user.followers && userData.user.followers.map((follower)=>(
-                     <p key={follower}>{follower}</p>
-                 ))}
-                 <span className='cross' onClick={()=>setFollowersPopup(false)}>&#10005;</span>
-
                  <ul>
-                        {
-                            usersData.user.map((userr) => {
-                                console.log(userr._id+' '+userr.pseudo)
-                                // console.log(user.__id)
-                                // console.log("----------------");
-                                // for(let i = 0; i < userData.user.followers.length; i++) {
-                                //     console.log(userData.user.followers[i])
-                                
-                                // }
-                                // console.log("----------------");
-                            })
-                           
-                            
-                            // usersData.user.map((user) => {
-                            //     for(let i = 0; i < userData.user.followers.length; i++) {
-                            //         // if(user.__id = userData.user.followers[i]){
-                            //         //     <li key={user.__id}>
-                            //         //         <img src="{user.picture}" alt="imgUser" srcset="" />
-                            //         //         <h4>{user.pseudo}</h4>
-                            //         //         <h2>Follo system</h2>
-                            //         //     </li>
-                            //         // }
-                            //         <li key={userData.user.followers[i]}>{userData.user.followers[i]} ss</li>
-                                    
-                                    
-                            //     }
-                            // })
-                        }
-                        
-
-                    </ul>
+                 {userData.user.followers && userData.user.followers.map((follower)=>(
+                    //  <p key={follower}>{follower}</p>
+                     <li key={follower}>
+                        {follower}
+                        <FollowHandler idToFollow={follower}/>
+                        {/* <FollowHandler idToFollow={user._id}/> */}
+                     </li>
+                 ))}
+                 </ul>
+                 
+                 <span className='cross' onClick={()=>setFollowersPopup(false)}>&#10005;</span>
+                 
                  </div>
  
                  </div>
